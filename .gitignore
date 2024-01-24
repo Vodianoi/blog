@@ -1,4 +1,7 @@
 ##### Windows
+#Environment file
+.env
+
 # Windows thumbnail cache files
 Thumbs.db
 Thumbs.db:encryptable
