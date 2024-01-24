@@ -11,10 +11,9 @@ require __DIR__ . '/../autoload.php';
 $controllerFolder = '/../app/controllers/';
 //$metaTitle = ucfirst($arg1);
 
-ob_start();
+include '../config/database.php';
+include('../app/persistances/blogPostData.php');
 
 if (empty($_GET))
     require(__DIR__ . $controllerFolder . 'homeController.php');
 
-$render = ob_get_clean();
-echo $render;
