@@ -1,2 +1,2 @@
 <?php
- var_dump(lastBlogPosts($pdo));
+include '../ressources/views/home.tpl.php';
