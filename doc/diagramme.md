@@ -9,3 +9,18 @@ graph TD;
     F -- No --> G[End]
 ```
 
+```mermaid
+sequenceDiagram;
+User->>index.php: ?action=
+index.php->>homeController.php: include
+homeController.php->>blogPostData.php: lastBlogPosts()
+blogPostData.php->>PDO: prepare()
+PDO-->>blogPostData.php: PDOStatement
+blogPostData.php->>PDOStatement: execute()
+PDOStatement-->>blogPostData.php: isSuccess
+blogPostData.php->>PDOStatement: fetchAll()
+PDOStatement-->>blogPostData.php: blogPosts
+blogPostData.php-->>homeController.php: blogPosts
+homeController.php->>home.tpl.php: blogPosts
+home.tpl.php-->>User: display blogPosts
+```
