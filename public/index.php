@@ -1,5 +1,10 @@
 <?php
 
+
+require __DIR__ . '/../autoload.php';
+
+(new App\Controller\DotEnvEnvironment)->load(__DIR__ . '/../');
+
 session_start();
 date_default_timezone_set('Europe/Paris');
 if (!isset($_SESSION['count'])) {
@@ -19,8 +24,10 @@ $arg1 = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
 $file = $arg1 . ".php";
 $metaTitle = ucfirst($arg1);
 
+include('../config/database.php');
+
 $routes = array(
-    "home" => $file,
+    "home" => __DIR__.$file,
 );
 
 
