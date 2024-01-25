@@ -14,7 +14,8 @@ $controllerFolder = '/../app/controllers/';
 $routes = array(
     'blogpost' => 'blogPostController.php',
     'blogpostcreate' =>'blogPostCreateController.php',
-    'blogpostmodify' => 'blogPostModifyController.php'
+    'blogpostmodify' => 'blogPostModifyController.php',
+    'blogPostDelete' => 'blogPostDeleteController.php'
 );
 
 include '../config/database.php';

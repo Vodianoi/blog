@@ -77,3 +77,10 @@ function blogPostUpdate(PDO $pdo, $id, $newPost): array
         'id' => $pdo->lastInsertId()
     ];
 }
+
+function blogPostDelete(PDO $pdo, $id) : bool
+{
+    $sql = 'DELETE FROM POSTS WHERE id=?';
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([$id]);
+}
