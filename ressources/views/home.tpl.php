@@ -8,12 +8,11 @@
 <body>
 
 <h1>Latest Blog Posts</h1>
-
 <?php foreach ($lastBlogPosts as $post): ?>
 
 <div class="blog-post">
-    <a href="?action=blogpost&id=<?= $post['id'] ?>"><h2><?php echo $post['title']; ?></h2></a>
-    <p><strong>Author:</strong> <?php echo $post['author']; ?></p>
+    <a href="?action=blogpost&id=<?= $post['id'] ?>"><h2><?= $post['title']; ?></h2></a>
+    <p><strong>Author:</strong> <?= $post['author']; ?></p>
 </div>
 <?php endforeach ?>
 
