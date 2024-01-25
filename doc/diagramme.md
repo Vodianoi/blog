@@ -65,3 +65,24 @@ sequenceDiagram;
     home.tpl.php -->> User: Display posts list
     
 ```
+
+```mermaid
+sequenceDiagram;
+    title Post editing
+    User ->> index.php: ?action=blogPostModify&id=2
+    index.php ->> blogPostModifyController.php: include
+    blogPostModifyController.php ->> blogPostUpdate.tpl.php: include
+    blogPostUpdate.tpl.php -->> User: Display form to update post
+    User ->> blogPostModifyController.php: submit Post
+    blogPostModifyController.php ->> blogPostData.php: blogPostUpdate(id)
+    blogPostData.php ->> PDO: prepare()
+    PDO -->> blogPostData.php: PDOStatement
+    blogPostData.php ->> PDOStatement: execute()
+    PDOStatement -->> blogPostData.php: isSuccess
+    blogPostData.php ->> blogPostModifyController.php: isSuccess
+    blogPostModifyController.php ->> index.php: ?action=blogPost&id=2
+    index.php ->> blogPostController.php: include
+    blogPostController.php ->> post.tpl.php: include
+    post.tpl.php -->> User: Display updated post
+    
+```
