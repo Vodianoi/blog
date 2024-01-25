@@ -4,7 +4,7 @@ function lastBlogPosts($pdo) : array
 {
     $res = [];
 
-    $sql = file_get_contents('../database/lastBlogPosts.sql');
+    $sql = 'SELECT * FROM POSTS JOIN USERS ON USERS.id = POSTS.users_id ORDER BY POSTS.id DESC LIMIT 10';
     foreach ($pdo->query($sql) as $row) {
         $res[] = array(
             'title' => $row['title'],
@@ -17,29 +17,26 @@ function lastBlogPosts($pdo) : array
 
 
 function blogPostById($pdo, $id){
-    $res = [];
 
-    $sql = 'SELECT title, content, nickname FROM POSTS JOIN USERS ON POSTS.users_id = USERS.id WHERE POSTS.id =' . $id . ' LIMIT 1';
+    $sql = 'SELECT title, content, nickname FROM POSTS JOIN USERS ON POSTS.users_id = USERS.id WHERE POSTS.id = ? LIMIT 1';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $id]);
+    $stmt->execute([$id]);
     $row = $stmt->fetch();
 
-    $res = array(
+    return array(
         'title' => $row['title'],
         'content' => $row['content'],
         'author' => $row['nickname']
     );
-
-    return $res;
 }
 
 
 function commentsByBlogPost($pdo, $id){
     $res = [];
 
-    $sql = 'SELECT COMS.content, nickname FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ' . $id;
+    $sql = 'SELECT COMS.content, nickname FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ? ';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $id]);
+    $stmt->execute([$id]);
     foreach ($stmt as $row) {
         $res[] = array(
             'content' => $row['content'],
