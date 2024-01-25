@@ -40,7 +40,28 @@ sequenceDiagram
     blogPostData.php ->> PDOStatement: execute()
     PDOStatement -->> blogPostData.php: isSuccess
     blogPostData.php ->> PDOStatement: fetchAll()
-    PDOStatement -->> blogPostData.php : post
-    blogPostController.php ->> post.tpl.php: post
+    PDOStatement -->> blogPostData.php : $post
+    blogPostData.php -->>blogPostController.php: $post
+    blogPostController.php ->> post.tpl.php: $post
     post.tpl.php -->> User: display post
+```
+
+
+```mermaid
+sequenceDiagram;
+    title Create post diagram
+    User ->> index.php: ?action=blogpostcreate
+    index.php ->> blogPostCreateController.php: include
+    blogPostCreateController.php ->> blogPostCreate.tpl.php: include
+    blogPostCreate.tpl.php -->> User: Display create post form
+    User ->> blogPostCreateController.php: submit POST 
+    blogPostCreateController.php ->> blogPostData.php: blogPostCreate()
+    blogPostData.php ->> PDO: prepare()
+    PDO -->> blogPostData.php: PDOStatement
+    blogPostData.php ->> PDOStatement: execute()
+    PDOStatement -->> blogPostData.php: isSuccess
+    blogPostData.php ->> blogPostCreateController.php: isSuccess
+    blogPostCreateController.php ->> home.tpl.php: include
+    home.tpl.php -->> User: Display posts list
+    
 ```
