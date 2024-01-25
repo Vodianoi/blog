@@ -13,6 +13,7 @@ $controllerFolder = '/../app/controllers/';
 
 $routes = array(
     'blogpost' => 'blogPostController.php',
+    'blogpostcreate' =>'blogPostCreateController.php'
 );
 
 include '../config/database.php';

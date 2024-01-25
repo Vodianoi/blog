@@ -40,3 +40,5 @@
         <p><strong>Author:</strong> <?= htmlspecialchars($comment['author']) ?></p>
     </div>
 <?php endforeach; ?>
+
+<a href="/">Back</a>
