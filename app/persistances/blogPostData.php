@@ -3,7 +3,6 @@
 function lastBlogPosts(PDO $pdo): array
 {
     $sql = 'SELECT POSTS.id, title, content, nickname AS author FROM POSTS JOIN USERS ON USERS.id = POSTS.users_id ORDER BY POSTS.id DESC LIMIT 10';
-    PDOStatement :
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll();
@@ -13,15 +12,19 @@ function lastBlogPosts(PDO $pdo): array
 function blogPostById(PDO $pdo, $id)
 {
 
-    $sql = 'SELECT title, content, nickname AS author FROM POSTS JOIN USERS ON POSTS.users_id = USERS.id WHERE POSTS.id = ? LIMIT 1';
-    PDOStatement :
+    $sql = 'SELECT POSTS.id, title, content, deletedAt, nickname AS author, CATEGORIES.name as category FROM POSTS 
+    JOIN USERS ON POSTS.users_id = USERS.id 
+    JOIN `POST-CATEGORY` AS PC ON PC.posts_id = POSTS.id
+    JOIN CATEGORIES ON CATEGORIES.id = PC.categories_id
+    WHERE POSTS.id = ? LIMIT 1';
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
 
 
-function commentsByBlogPost(PDO $pdo, $id)
+function commentsByBlogPost(PDO $pdo, $id): false|array
 {
     $sql = 'SELECT COMS.content, nickname AS author FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ? ';
     $stmt = $pdo->prepare($sql);
@@ -31,37 +34,46 @@ function commentsByBlogPost(PDO $pdo, $id)
 
 function blogPostCreate(PDO $pdo, $newPost): bool
 {
-    $id = createAnonymousUser($pdo)['id'];
+    $id = getAnonymousUser($pdo);
     echo $id;
     $sql = 'INSERT INTO POSTS (title, content, createdAt, deletedAt, priority, users_id) VALUES (:title, :content, :createdAt, :deletedAt, :priority, :users_id)';
     $stmt = $pdo->prepare($sql);
-    try {
-        return $stmt->execute([
-            'title' => $newPost['title'],
-            'content' => $newPost['content'],
-            'createdAt' => $newPost['createdAt'],
-            'deletedAt' => $newPost['deletedAt'],
-            'priority' => $newPost['priority'],
-            'users_id' => $id
-        ]);
+    $success = $stmt->execute([
+        'title' => $newPost['title'],
+        'content' => $newPost['content'],
+        'createdAt' => date('Y-m-d'),
+        'deletedAt' => $newPost['deletedAt'],
+        'priority' => $newPost['priority'],
+        'users_id' => $id
+    ]);
 
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
+    $category = $newPost['category'];
 
+    $sql = 'INSERT INTO `POST-CATEGORY` (posts_id, categories_id) VALUES (LAST_INSERT_ID(), (SELECT id FROM CATEGORIES WHERE name = ? ))';
+    $categoryStatement = $pdo->prepare($sql);
+    return $success && $categoryStatement->execute([$category]);
 }
 
-function createAnonymousUser(PDO $pdo): array
+function getAnonymousUser(PDO $pdo): int
 {
-    $sql = 'INSERT INTO USERS (nickname) VALUES("Anonymous")';
+    $stmt = $pdo->query('SELECT id FROM USERS WHERE nickname="Anonymous"');
+    return $stmt->fetchColumn();
+}
+
+
+function blogPostUpdate(PDO $pdo, $id, $newPost): array
+{
+    $sql = 'UPDATE POSTS SET title = :title, content = :content, deletedAt = :deletedAt WHERE id=:id';
     $stmt = $pdo->prepare($sql);
-    $success = $stmt->execute();
-    if (!$success) {
-        $stmt = $pdo->query('SELECT id FROM USERS WHERE nickname="Anonymous"');
-        $id = $stmt->fetchColumn();
-    }
+    var_dump($stmt);
+    $success = $stmt->execute([
+        'title' => $newPost['title'],
+        'deletedAt' => $newPost['deletedAt'],
+        'content' => $newPost['content'],
+        'id' => $id
+    ]);
     return [
         'success' => $success,
-        'id' => $success ? $pdo->lastInsertId() : $id
+        'id' => $pdo->lastInsertId()
     ];
 }

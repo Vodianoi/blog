@@ -41,4 +41,5 @@
     </div>
 <?php endforeach; ?>
 
+<a href="/?action=blogpostmodify&id=<?= $blogPost['id'] ?>">edit</a><br>
 <a href="/">Back</a>
