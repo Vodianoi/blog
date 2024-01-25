@@ -34,7 +34,7 @@ sequenceDiagram
     
     User ->> index.php: ?action=blogpost&id=2
     index.php ->> blogPostController.php: include
-    blogPostController.php ->> blogPostData.php: getPost(id)
+    blogPostController.php ->> blogPostData.php: blogPostById(id)
     blogPostData.php ->> PDO: prepare()
     PDO -->> blogPostData.php: PDOStatement
     blogPostData.php ->> PDOStatement: execute()
