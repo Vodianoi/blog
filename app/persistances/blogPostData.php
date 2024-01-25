@@ -2,47 +2,27 @@
 
 function lastBlogPosts($pdo) : array
 {
-    $res = [];
-
-    $sql = 'SELECT * FROM POSTS JOIN USERS ON USERS.id = POSTS.users_id ORDER BY POSTS.id DESC LIMIT 10';
-    foreach ($pdo->query($sql) as $row) {
-        $res[] = array(
-            'title' => $row['title'],
-            'content' => $row['content'],
-            'author' => $row['nickname']
-        );
-    }
-    return $res;
+    $sql = 'SELECT POSTS.id, title, content, nickname AS author FROM POSTS JOIN USERS ON USERS.id = POSTS.users_id ORDER BY POSTS.id DESC LIMIT 10';
+    PDOStatement : $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll();
 }
 
 
-function blogPostById($pdo, $id){
+function blogPostById(PDO $pdo, $id){
 
-    $sql = 'SELECT title, content, nickname FROM POSTS JOIN USERS ON POSTS.users_id = USERS.id WHERE POSTS.id = ? LIMIT 1';
-    $stmt = $pdo->prepare($sql);
+    $sql = 'SELECT title, content, nickname as author FROM POSTS JOIN USERS ON POSTS.users_id = USERS.id WHERE POSTS.id = ? LIMIT 1';
+    PDOStatement : $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
-    $row = $stmt->fetch();
-
-    return array(
-        'title' => $row['title'],
-        'content' => $row['content'],
-        'author' => $row['nickname']
-    );
+    return $stmt->fetch();
 }
 
 
 function commentsByBlogPost($pdo, $id){
     $res = [];
 
-    $sql = 'SELECT COMS.content, nickname FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ? ';
+    $sql = 'SELECT COMS.content, nickname AS author FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ? ';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
-    foreach ($stmt as $row) {
-        $res[] = array(
-            'content' => $row['content'],
-            'author' => $row['nickname']
-        );
-    }
-
-    return $res;
+    return $stmt->fetchAll();
 }
