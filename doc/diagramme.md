@@ -86,3 +86,21 @@ sequenceDiagram;
     post.tpl.php -->> User: Display updated post
     
 ```
+
+
+```mermaid
+sequenceDiagram
+;
+    title Post Deleting
+    User ->> index.php: ?action=blogPostDelete&id=2
+    index.php ->> blogPostDeleteController.php: include
+    blogPostDeleteController.php ->> blogPostData.php: blogPostDelete(id)
+    blogPostData.php ->> PDO: prepare()
+    PDO -->> blogPostData.php: PDOStatement
+    blogPostData.php ->> PDOStatement: execute()
+    PDOStatement -->> blogPostData.php: isSuccess
+    blogPostData.php ->> blogPostDeleteController.php: isSuccess
+    blogPostDeleteController.php ->> index.php: redirect /
+    index.php ->> home.tpl.php: include
+    home.tpl.php -->> User: Display posts list
+```
