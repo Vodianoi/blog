@@ -1,45 +1,46 @@
 <?php
 
-function lastBlogPosts(PDO $pdo): array
+function lastBlogPosts(PDO $pdo, int $show = 10): array
 {
-    $sql = 'SELECT POSTS.id, title, content, nickname AS author 
+    $sql = '
+SELECT POSTS.id, title, content, nickname AS author 
     FROM POSTS 
     JOIN USERS ON USERS.id = POSTS.users_id 
-    ORDER BY POSTS.id DESC LIMIT 10';
-    $statement = $pdo->prepare($sql);
-    $statement->execute();
-    return $statement->fetchAll();
+    ORDER BY POSTS.id DESC 
+    LIMIT :show
+    ';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue('show', $show, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
 }
 
 
 function blogPostById(PDO $pdo, $id)
 {
 
-    $sql = 'SELECT POSTS.id, title, content, deletedAt, nickname AS author, CATEGORIES.name as category FROM POSTS 
+    $sql = '
+SELECT POSTS.id, title, content, deletedAt, nickname AS author, CATEGORIES.name as category 
+FROM POSTS 
     JOIN USERS ON POSTS.users_id = USERS.id 
     JOIN `POST-CATEGORY` AS PC ON PC.posts_id = POSTS.id
     JOIN CATEGORIES ON CATEGORIES.id = PC.categories_id
-    WHERE POSTS.id = ? LIMIT 1';
+    WHERE POSTS.id = :id';
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
+    $stmt->bindValue('id', $id, PDO::PARAM_INT);
+    $stmt->execute();
     return $stmt->fetch();
 }
 
-
-function commentsByBlogPost(PDO $pdo, $id): false|array
-{
-    $sql = 'SELECT COMS.content, nickname AS author FROM COMS JOIN POSTS ON POSTS.id = COMS.posts_id JOIN USERS ON COMS.users_id = USERS.id WHERE POSTS.id = ? ';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    return $stmt->fetchAll();
-}
 
 function blogPostCreate(PDO $pdo, $newPost): bool
 {
     $id = getAnonymousUser($pdo);
     echo $id;
-    $sql = 'INSERT INTO POSTS (title, content, createdAt, deletedAt, priority, users_id) VALUES (:title, :content, :createdAt, :deletedAt, :priority, :users_id)';
+    $sql = '
+INSERT INTO POSTS (title, content, createdAt, deletedAt, priority, users_id) 
+VALUES (:title, :content, :createdAt, :deletedAt, :priority, :users_id)';
     $stmt = $pdo->prepare($sql);
     $success = $stmt->execute([
         'title' => $newPost['title'],
@@ -52,7 +53,9 @@ function blogPostCreate(PDO $pdo, $newPost): bool
 
     $category = $newPost['category'];
 
-    $sql = 'INSERT INTO `POST-CATEGORY` (posts_id, categories_id) VALUES (LAST_INSERT_ID(), (SELECT id FROM CATEGORIES WHERE name = ? ))';
+    $sql = '
+INSERT INTO `POST-CATEGORY` (posts_id, categories_id) 
+VALUES (LAST_INSERT_ID(), (SELECT id FROM CATEGORIES WHERE name = ? ))';
     $categoryStatement = $pdo->prepare($sql);
     return $success && $categoryStatement->execute([$category]);
 }
@@ -88,9 +91,12 @@ function blogPostDelete(PDO $pdo, $id): bool
     return $stmt->execute([$id]);
 }
 
-function blogPostsByCategory($pdo, $category)
+function blogPostsByCategory(PDO $pdo, $category): false|array
 {
-    $sql = 'SELECT POSTS.id, title, content, deletedAt, nickname AS author, C.name as category
+    if ($category == 'all')
+        return lastBlogPosts($pdo);
+    $sql = '
+SELECT POSTS.id, title, content, deletedAt, nickname AS author, C.name as category
 FROM POSTS 
     JOIN `POST-CATEGORY` as PC ON PC.posts_id = POSTS.id 
     JOIN blog.CATEGORIES C on PC.categories_id = C.id
@@ -101,7 +107,7 @@ FROM POSTS
     return $stmt->fetchAll();
 }
 
-function categories($pdo)
+function categories(PDO $pdo): array|false
 {
     $sql = 'SELECT * FROM CATEGORIES';
     $stmt = $pdo->prepare($sql);

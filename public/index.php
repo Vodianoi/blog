@@ -16,11 +16,16 @@ $routes = array(
     'blogpostcreate' =>'blogPostCreateController.php',
     'blogpostmodify' => 'blogPostModifyController.php',
     'blogPostDelete' => 'blogPostDeleteController.php',
-    'blogPostCategory' => 'blogPostCategoryController.php'
+    'blogPostCategory' => 'blogPostCategoryController.php',
+    'commentDelete' => 'commentDeleteController.php',
+    'commentCreate' => 'commentCreateController.php'
 );
 
 include '../config/database.php';
 include('../app/persistances/blogPostData.php');
+include('../app/persistances/commentData.php');
+
+include('../ressources/views/layouts/header.tpl.php');
 
 if (empty($_GET)) {
     require(__DIR__ . $controllerFolder . 'homeController.php');

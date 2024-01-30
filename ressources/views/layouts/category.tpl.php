@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
-</head>
 <body>
 
 <?php foreach ($categories as $cat): ?>
 
-    <div class="blog-post">
+    <div class="category">
         <a href="?action=blogPostCategory&name=<?= $cat['name'] ?>"><?= $cat['name'] ?></a>
     </div>
 <?php endforeach ?>
+<div class="category">
+    <a href="?action=blogPostCategory&name=all"> All </a>
+</div>
 
+<?php if($_GET['name'] != 'all'): ?>
 <h1>Blog Posts in <?= $category ?></h1>
+<?php endif ?>
 <?php foreach ($posts as $post): ?>
 
     <div class="blog-post">
