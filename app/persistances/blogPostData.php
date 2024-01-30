@@ -2,7 +2,10 @@
 
 function lastBlogPosts(PDO $pdo): array
 {
-    $sql = 'SELECT POSTS.id, title, content, nickname AS author FROM POSTS JOIN USERS ON USERS.id = POSTS.users_id ORDER BY POSTS.id DESC LIMIT 10';
+    $sql = 'SELECT POSTS.id, title, content, nickname AS author 
+    FROM POSTS 
+    JOIN USERS ON USERS.id = POSTS.users_id 
+    ORDER BY POSTS.id DESC LIMIT 10';
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll();
@@ -78,9 +81,30 @@ function blogPostUpdate(PDO $pdo, $id, $newPost): array
     ];
 }
 
-function blogPostDelete(PDO $pdo, $id) : bool
+function blogPostDelete(PDO $pdo, $id): bool
 {
     $sql = 'DELETE FROM POSTS WHERE id=?';
     $stmt = $pdo->prepare($sql);
     return $stmt->execute([$id]);
+}
+
+function blogPostsByCategory($pdo, $category)
+{
+    $sql = 'SELECT POSTS.id, title, content, deletedAt, nickname AS author, C.name as category
+FROM POSTS 
+    JOIN `POST-CATEGORY` as PC ON PC.posts_id = POSTS.id 
+    JOIN blog.CATEGORIES C on PC.categories_id = C.id
+    JOIN USERS ON USERS.id = POSTS.users_id 
+    WHERE C.name = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$category]);
+    return $stmt->fetchAll();
+}
+
+function categories($pdo)
+{
+    $sql = 'SELECT * FROM CATEGORIES';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll();
 }

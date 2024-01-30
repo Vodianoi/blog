@@ -15,7 +15,8 @@ $routes = array(
     'blogpost' => 'blogPostController.php',
     'blogpostcreate' =>'blogPostCreateController.php',
     'blogpostmodify' => 'blogPostModifyController.php',
-    'blogPostDelete' => 'blogPostDeleteController.php'
+    'blogPostDelete' => 'blogPostDeleteController.php',
+    'blogPostCategory' => 'blogPostCategoryController.php'
 );
 
 include '../config/database.php';
