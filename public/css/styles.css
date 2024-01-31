@@ -202,3 +202,18 @@ header {
     text-decoration: none;
 }
 
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+label[for="category"] {
+    display: block;
+    margin-bottom: 8px;
+    color: #007bff;
+}
+

@@ -69,6 +69,7 @@ function getAnonymousUser(PDO $pdo): int
 
 function blogPostUpdate(PDO $pdo, $id, $newPost): array
 {
+    updateBlogCategory($pdo, $id, $newPost['category']);
     $sql = '
 UPDATE POSTS 
 SET title = :title, content = :content, deletedAt = :deletedAt, priority = :priority
@@ -86,6 +87,19 @@ WHERE id=:id';
         'success' => $success,
         'id' => $pdo->lastInsertId()
     ];
+}
+
+function updateBlogCategory($pdo, $postID, $categoryName)
+{
+    $sql = 'UPDATE `POST-CATEGORY`
+    SET categories_id = (SELECT id FROM CATEGORIES WHERE name = :categoryName)
+WHERE posts_id = :posts_id
+    ';
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        'categoryName' => $categoryName,
+        'posts_id' => $postID
+    ]);
 }
 
 function blogPostDelete(PDO $pdo, $id): bool

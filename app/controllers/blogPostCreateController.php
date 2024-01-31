@@ -1,6 +1,4 @@
 <?php
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -10,5 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     header('Location: /');
 } else {
+    $categories = categories($pdo);
     include '../ressources/views/layouts/postCreate.tpl.php';
 }

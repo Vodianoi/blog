@@ -13,7 +13,12 @@
     <input type="date" id="deletedAt" name="deletedAt" required>
 
     <label for="category">Category:</label>
-    <input type="text" id="category" name="category" required>
+<!--    <input type="text" id="category" name="category" required>-->
+    <select name="category" id="category">
+        <?php foreach($categories as $category): ?>
+        <option value="<?= $category['name'] ?>"><?= ucfirst($category['name']) ?></option>
+        <?php endforeach; ?>
+    </select>
 
     <label for="priority">Priority:</label>
     <input type="range" id="priority" name="priority" min="0" max="5" value="0" oninput="this.nextElementSibling.value = this.value" required>

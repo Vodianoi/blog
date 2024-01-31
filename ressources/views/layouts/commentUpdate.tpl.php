@@ -15,4 +15,4 @@
 </div>
 
 
-<a href="/" class="back-link">Back</a>
+<a href="?action=blogpost&id=<?= $blogPost['id'] ?>" class="back-link">Back</a>

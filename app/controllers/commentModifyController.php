@@ -7,7 +7,6 @@ $comID = filter_input(INPUT_GET, 'comid', FILTER_SANITIZE_URL);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updatedComment = array_map('htmlspecialchars', $_POST);
-    var_dump($updatedComment);
     $success = commentUpdate($pdo, $updatedComment, $comID);
     header('Location: ?action=blogpost&id=' . $postID);
 }
