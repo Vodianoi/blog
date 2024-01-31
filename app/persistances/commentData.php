@@ -90,3 +90,30 @@ function postIDForCom(PDO $pdo, $id): int
     $stmt->execute([$id]);
     return $stmt->fetch()['id'];
 }
+
+
+function commentUpdate(PDO $pdo, $updatedComment, int $id) : bool
+{
+    $sql = 'UPDATE COMS
+    SET content = :content
+    WHERE id = :id;
+    ';
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        'content' => $updatedComment['content'],
+        'id' => $id
+    ]);
+
+}
+
+function commentByID(PDO $pdo, int $id)
+{
+    $sql = 'SELECT COMS.id, U.nickname as author, content 
+FROM COMS 
+JOIN blog.USERS U on COMS.users_id = U.id
+WHERE COMS.id = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetch();
+
+}

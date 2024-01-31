@@ -69,13 +69,17 @@ function getAnonymousUser(PDO $pdo): int
 
 function blogPostUpdate(PDO $pdo, $id, $newPost): array
 {
-    $sql = 'UPDATE POSTS SET title = :title, content = :content, deletedAt = :deletedAt WHERE id=:id';
+    $sql = '
+UPDATE POSTS 
+SET title = :title, content = :content, deletedAt = :deletedAt, priority = :priority
+WHERE id=:id';
     $stmt = $pdo->prepare($sql);
     var_dump($stmt);
     $success = $stmt->execute([
         'title' => $newPost['title'],
         'deletedAt' => $newPost['deletedAt'],
         'content' => $newPost['content'],
+        'priority' => $newPost['priority'],
         'id' => $id
     ]);
     return [

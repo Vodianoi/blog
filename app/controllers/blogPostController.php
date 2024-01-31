@@ -10,5 +10,5 @@ if (!isset($_GET['show'])) {
 $blogPost = blogPostById($pdo, $id);
 $comments = lastCommentsByBlogPost($pdo, $id, $show);
 include '../ressources/views/layouts/post.tpl.php';
-include '../ressources/views/layouts/comment.tpl.php';
+include '../ressources/views/layouts/comments.tpl.php';
 

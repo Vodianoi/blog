@@ -22,6 +22,6 @@
     <button type="submit">Update Article</button>
 </form>
 
-<a href="/">back</a>
+<a class="back-link" href="?action=blogpost&id=<?= $post['id'] ?>">back</a>
 
 </body>
