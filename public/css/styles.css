@@ -1,6 +1,6 @@
 /* styles.css */
 
-body:not(header) {
+body:not(header, .navbar) {
     font-family: 'Arial', sans-serif;
     margin: 20px;
     padding: 20px;
@@ -201,3 +201,4 @@ header {
     color: #007bff;
     text-decoration: none;
 }
+

@@ -78,7 +78,7 @@ VALUES (:content,
  * @param $id
  * @return ID
  */
-function postIDForCom(PDO $pdo, $id): array
+function postIDForCom(PDO $pdo, $id): int
 {
     $sql = '
     SELECT POSTS.id 

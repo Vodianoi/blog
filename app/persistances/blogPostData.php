@@ -20,7 +20,7 @@ function blogPostById(PDO $pdo, $id)
 {
 
     $sql = '
-SELECT POSTS.id, title, content, deletedAt, nickname AS author, CATEGORIES.name as category 
+SELECT POSTS.id, title, content, deletedAt, priority, nickname AS author, CATEGORIES.name as category 
 FROM POSTS 
     JOIN USERS ON POSTS.users_id = USERS.id 
     JOIN `POST-CATEGORY` AS PC ON PC.posts_id = POSTS.id
