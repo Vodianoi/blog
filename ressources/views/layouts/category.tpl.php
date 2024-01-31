@@ -1,17 +1,16 @@
-<body>
-
-<?php foreach ($categories as $cat): ?>
-
+<div class="categories">
+    <?php foreach ($categories as $cat): ?>
+        <div class="category">
+            <a href="?action=blogPostCategory&name=<?= $cat['name'] ?>"><?= $cat['name'] ?></a>
+        </div>
+    <?php endforeach ?>
     <div class="category">
-        <a href="?action=blogPostCategory&name=<?= $cat['name'] ?>"><?= $cat['name'] ?></a>
+        <a href="?action=blogPostCategory&name=all"> All </a>
     </div>
-<?php endforeach ?>
-<div class="category">
-    <a href="?action=blogPostCategory&name=all"> All </a>
 </div>
 
-<?php if($_GET['name'] != 'all'): ?>
-<h1>Blog Posts in <?= $category ?></h1>
+<?php if ($_GET['name'] != 'all'): ?>
+    <h1>Blog Posts in <?= $category ?></h1>
 <?php endif ?>
 <?php foreach ($posts as $post): ?>
 
@@ -24,6 +23,3 @@
 <a href="?action=blogpostcreate">
     Create new Post
 </a>
-
-</body>
-</html>

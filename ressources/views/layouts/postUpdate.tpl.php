@@ -1,5 +1,3 @@
-<body>
-
 <h2>Update Article</h2>
 
 <form id="articleForm" method="post" action="?action=blogpostmodify&id=<?= $blogPost['id'] ?>">
@@ -27,5 +25,3 @@
 </form>
 
 <a class="back-link" href="?action=blogpost&id=<?= $blogPost['id'] ?>">back</a>
-
-</body>

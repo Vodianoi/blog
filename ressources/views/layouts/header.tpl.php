@@ -6,6 +6,7 @@
     <link href="css/styles.css" rel="stylesheet" />
     <title><?= $metaTitle ?? 'Blog' ?></title>
 </head>
+<body>
 <header>
     <nav class="navbar">
         <div class="logo">
@@ -13,10 +14,9 @@
         </div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
-            <li><a href="?action=about">About</a></li>
-            <li><a href="?action=contact">Contact</a></li>
+            <li><a href="?action=signin">Sign in</a></li>
+            <li><a href="?action=login">Log in</a></li>
             <!-- Add more navigation links as needed -->
         </ul>
     </nav>
 </header>
-<br>

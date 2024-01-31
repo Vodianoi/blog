@@ -1,5 +1,3 @@
-<body>
-
 <?php foreach ($categories as $cat): ?>
     <div class="category">
         <a href="?action=blogPostCategory&name=<?= $cat['name'] ?>"><?= $cat['name'] ?></a>
@@ -17,6 +15,3 @@
 <a href="?action=blogpostcreate" class="create-post-link">
     Create new Post
 </a>
-
-</body>
-</html>

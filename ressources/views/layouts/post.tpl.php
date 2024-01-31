@@ -1,4 +1,3 @@
-<body>
 <div class="content">
     <h2>Blog Post by ID</h2>
     <div class="post">

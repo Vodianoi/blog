@@ -1,5 +1,3 @@
-<body>
-
 <h2>Create New Article</h2>
 
 <form id="articleForm" method="post" action="?action=blogpostcreate">
@@ -27,4 +25,3 @@
     <button type="submit">Create Article</button>
 </form>
 <a class="back-link" href="/">back</a>
-</body>

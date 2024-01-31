@@ -1,6 +1,6 @@
 <h2>Comments</h2>
 <?php foreach ($comments as $com): ?>
-    <?php if (!isset($updatingComment) || $com !== $updatingComment): ?>
+    <?php if ($com !== $updatingComment): ?>
         <div class="comment">
             <br>
             <hr style="margin-right: 50%;">
