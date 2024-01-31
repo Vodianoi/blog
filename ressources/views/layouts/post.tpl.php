@@ -2,8 +2,8 @@
 <div class="content">
     <h2>Blog Post by ID</h2>
     <div class="post">
-        <h3><?= htmlspecialchars($blogPost['title']) ?></h3>
-        <p><?= nl2br(htmlspecialchars($blogPost['content'])) ?></p>
+        <h3><?= $blogPost['title'] ?></h3>
+        <p><?= $blogPost['content'] ?></p>
         <p><strong>Author:</strong> <?= htmlspecialchars($blogPost['author']) ?></p>
     </div>
 
