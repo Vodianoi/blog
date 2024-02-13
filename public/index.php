@@ -38,3 +38,4 @@ else if(isset($routes[$action])){
     require(__DIR__ . $controllerFolder .$routes[$action]);
 }
 
+include('../ressources/views/layouts/footer.tpl.php');
