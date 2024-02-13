@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     font-family: 'Arial', sans-serif;
     margin: 40px;
@@ -224,5 +225,12 @@ label[for="category"] {
     display: block;
     margin-bottom: 8px;
     color: #007bff;
+}
+
+footer{
+    text-align: center;
+    font-family: "Bitstream Charter";
+    font-size: 50px;
+    background-color:yellow;
 }
 
