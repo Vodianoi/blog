@@ -1,3 +1,8 @@
-<footer>footer bonhjour</footer>
+<footer>NOTRE SUPER FOOTER</footer>
+
+
+
+
+
 </body>
 </html>
