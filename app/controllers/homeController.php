@@ -8,3 +8,5 @@ try {
     echo $e->getMessage();
 }
 include '../ressources/views/home.tpl.php';
+
+include '../ressources/views/layouts/footer.tpl.php';

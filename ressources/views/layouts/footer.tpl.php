@@ -1,4 +1,4 @@
-<footer>
+<footer> NOTRE SUPER FOOTER
 <?php
 date_default_timezone_set('Europe/Paris');
 $now = new DateTime('now');

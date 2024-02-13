@@ -21,7 +21,7 @@ VALUES
     ]);
 }
 
-function userLogin(PDO $pdo, $email, $sha1)
+function checkUserLogin(PDO $pdo, $email, $sha1)
 {
     $sql = 'SELECT 1 as found FROM USERS WHERE password = :password AND email = :email';
     $stmt = $pdo->prepare($sql);
